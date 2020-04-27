@@ -22,7 +22,7 @@ public class RangeApplyMain
         OptionSpec<File> excArg = parser.acceptsAll(a("exc", "excFiles")).withRequiredArg().ofType(File.class);
         OptionSpec<File> outArg = parser.acceptsAll(a("out", "output", "outDir")).withRequiredArg().ofType(File.class).required();
         OptionSpec<Boolean> importArg = parser.acceptsAll(a("keepImports")).withOptionalArg().ofType(Boolean.class).defaultsTo(true);
-        //OptionSpec<Boolean> annArg = parser.acceptsAll(a("annotate")).withOptionalArg().ofType(Boolean.class).defaultsTo(false);
+        OptionSpec<Boolean> annArg = parser.acceptsAll(a("annotate")).withOptionalArg().ofType(Boolean.class).defaultsTo(false);
 
         //Old stuff, we should kill off
         OptionSpec<File> lvRangeArg = parser.acceptsAll(a("lvRangeMap")).withRequiredArg().ofType(File.class);
@@ -41,16 +41,19 @@ public class RangeApplyMain
             File output = options.valueOf(outArg);
             File lvRange = options.valueOf(lvRangeArg);
             boolean keepImports = options.has(importArg) && options.valueOf(importArg);
+            boolean annotate = options.valueOf(annArg);
 
             System.out.println("Range:   " + range);
             System.out.println("Output:  " + output);
             System.out.println("LVRange: " + lvRange);
             System.out.println("Imports: " + keepImports);
+            System.out.println("Annotate: " + annotate);
 
             RangeApplierBuilder builder = new RangeApplierBuilder()
                 .range(range)
                 .output(output)
-                .lvrange(lvRange);
+                .lvrange(lvRange)
+                .annotate(annotate);
 
             if (options.has(mappingArg))
             {
