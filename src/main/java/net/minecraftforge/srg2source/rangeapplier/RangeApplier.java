@@ -283,6 +283,16 @@ public class RangeApplier extends ConfLogger<RangeApplier>
             log("Rename file " + fileName + " -> " + newFileName);
 
             fileName = newFileName;
+
+            if(oldTopLevelClassPackage != null && newTopLevelClassPackage != null) {
+                log("Rename package " + oldTopLevelClassPackage + " -> " + newTopLevelClassPackage);
+
+                String annotation = "";
+                if (shouldAnnotate) {
+                    annotation = " /* was " + oldTopLevelClassPackage.replace("/", ".") + " */";
+                }
+                outString = outString.replace("package " + oldTopLevelClassPackage.replace("/", ".") + ";", "package " + newTopLevelClassPackage.replace("/", ".") + ";" + annotation);
+            }
         }
 
         return Arrays.asList(fileName, outString);
